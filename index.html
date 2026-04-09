@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Irina Gheorghe — Senior Product Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&family=Neucha&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #FCFCFC;
+  --text: #2A2A2A;
+  --blue: #AEBECD;
+  --green: #B0BFA8;
+  --yellow: #F9E371;
+  --purple: #D199E5;
+  --gold: #E9CD89;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  cursor: none;
+  overflow-x: hidden;
+}
+
+/* ── Custom cursor ── */
+#cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 28px; height: 28px;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-4px, -26px);
+  transition: opacity .15s;
+}
+
+/* ── Dot grid canvas ── */
+#dot-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Nav ── */
+nav {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 48px;
+}
+
+.nav-logo {
+  font-family: 'Cabin Sketch', cursive;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.5px;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity .2s;
+}
+
+.nav-links a:hover { opacity: 1; }
+
+/* ── Hero ── */
+#hero {
+  position: relative;
+  z-index: 5;
+  min-height: calc(100vh - 80px);
+  display: grid;
+  grid-template-columns: 1fr 320px 1fr;
+  grid-template-rows: auto 1fr auto;
+  align-items: center;
+  padding: 0 48px 48px;
+  gap: 24px;
+}
+
+/* ── Left: Name block ── */
+.name-block {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-top: 20px;
+}
+
+.name-heading {
+  font-family: 'Cabin Sketch', cursive;
+  font-size: clamp(48px, 6vw, 80px);
+  font-weight: 700;
+  line-height: 1.0;
+  color: var(--text);
+  letter-spacing: -1px;
+}
+
+.title-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--text);
+  color: var(--bg);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 100px;
+  width: fit-content;
+}
+
+.title-pill::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--yellow);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.sticky-yellow {
+  background: var(--yellow);
+  padding: 18px 20px 22px;
+  font-family: 'Neucha', cursive;
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--text);
+  width: 220px;
+  transform: rotate(-2deg);
+  box-shadow: 3px 4px 12px rgba(0,0,0,0.12);
+  position: relative;
+  margin-top: 8px;
+}
+
+.sticky-yellow::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: rgba(0,0,0,0.07);
+}
+
+/* ── Center: Conference badge ── */
+.badge-wrap {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.lanyard-anchor {
+  width: 4px;
+  height: 30px;
+  background: linear-gradient(180deg, #888 0%, #666 100%);
+  border-radius: 2px 2px 0 0;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.lanyard-anchor::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px; height: 10px;
+  background: #888;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+.badge-swing {
+  transform-origin: top center;
+  animation: pendulum 3.8s ease-in-out infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@keyframes pendulum {
+  0%   { transform: rotate(-6deg); }
+  50%  { transform: rotate(6deg); }
+  100% { transform: rotate(-6deg); }
+}
+
+.lanyard-strap {
+  width: 36px;
+  height: 110px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.lanyard-strap::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(180deg,
+    #5B4FD9 0%, #7B5CE5 25%, #9B6CF0 50%,
+    #7B5CE5 75%, #5B4FD9 100%);
+  border-radius: 3px;
+}
+
+/* Lanyard stripe accent */
+.lanyard-strap::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 100%;
+  background: rgba(255,255,255,0.35);
+  border-radius: 1px;
+}
+
+.badge-card {
+  background: #fff;
+  border: 1.5px solid #ddd;
+  border-radius: 12px;
+  width: 200px;
+  padding: 20px 16px 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.13), 0 2px 8px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text);
+  transition: box-shadow .2s;
+  cursor: none;
+}
+
+.badge-card:hover {
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18), 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.badge-event-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #5B4FD9;
+  background: #f0eeff;
+  padding: 3px 8px;
+  border-radius: 4px;
+  width: 100%;
+  text-align: center;
+}
+
+.badge-avatar {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cabin Sketch', cursive;
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  border: 3px solid #eee;
+  overflow: hidden;
+}
+
+.badge-avatar img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.badge-name {
+  font-family: 'Cabin Sketch', cursive;
+  font-size: 17px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.badge-title-small {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  color: #888;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.badge-barcode {
+  width: 100%;
+  height: 28px;
+  background: repeating-linear-gradient(
+    90deg,
+    #222 0px, #222 2px,
+    transparent 2px, transparent 4px,
+    #222 4px, #222 5px,
+    transparent 5px, transparent 8px,
+    #222 8px, #222 9px,
+    transparent 9px, transparent 12px,
+    #222 12px, #222 15px,
+    transparent 15px, transparent 17px,
+    #222 17px, #222 18px,
+    transparent 18px, transparent 22px,
+    #222 22px, #222 24px,
+    transparent 24px, transparent 27px,
+    #222 27px, #222 29px,
+    transparent 29px, transparent 32px
+  );
+  border-radius: 2px;
+  opacity: 0.15;
+  margin-top: 4px;
+}
+
+/* ── Right: Post-it stack ── */
+.postit-area {
+  grid-column: 3;
+  grid-row: 1 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 20px;
+}
+
+.postit-stack {
+  position: relative;
+  width: 180px;
+  height: 200px;
+  cursor: none;
+}
+
+.postit {
+  position: absolute;
+  width: 160px;
+  padding: 16px 14px 20px;
+  font-family: 'Neucha', cursive;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--text);
+  box-shadow: 2px 3px 10px rgba(0,0,0,0.13);
+  transition: transform .15s;
+  top: 0; left: 0;
+  will-change: transform;
+}
+
+.postit::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  background: rgba(0,0,0,0.06);
+}
+
+.postit .stat-value {
+  font-family: 'Cabin Sketch', cursive;
+  font-size: 28px;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.postit .stat-label {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.postit:nth-child(1) { background: var(--yellow); transform: rotate(-4deg); z-index: 6; }
+.postit:nth-child(2) { background: var(--blue);   transform: rotate(-1deg) translate(4px,4px); z-index: 5; }
+.postit:nth-child(3) { background: var(--green);  transform: rotate(3deg)  translate(2px,8px); z-index: 4; }
+.postit:nth-child(4) { background: var(--purple); transform: rotate(-3deg) translate(-2px,12px); z-index: 3; }
+.postit:nth-child(5) { background: #F4B8A0;       transform: rotate(2deg)  translate(5px,16px); z-index: 2; }
+.postit:nth-child(6) { background: var(--gold);   transform: rotate(-2deg) translate(1px,20px); z-index: 1; }
+
+@keyframes flyOff {
+  0%   { opacity: 1; transform: var(--base-rot); }
+  30%  { opacity: 1; transform: rotate(25deg) translate(60px,-80px) scale(1.05); }
+  100% { opacity: 0; transform: rotate(40deg) translate(140px,-160px) scale(0.7); }
+}
+
+.postit.flying {
+  animation: flyOff 0.55s cubic-bezier(.25,.46,.45,.94) forwards;
+  pointer-events: none;
+}
+
+.postit-hint {
+  position: absolute;
+  bottom: -28px;
+  left: 0;
+  font-family: 'Neucha', cursive;
+  font-size: 11px;
+  color: #aaa;
+  white-space: nowrap;
+}
+
+/* ── Bottom row elements ── */
+.bottom-row {
+  grid-column: 1 / 4;
+  grid-row: 3;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-top: 16px;
+}
+
+/* ── Green sticky ── */
+.sticky-green {
+  background: var(--green);
+  padding: 14px 16px 18px;
+  font-family: 'Neucha', cursive;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--text);
+  width: 230px;
+  transform: rotate(1.5deg);
+  box-shadow: 3px 4px 12px rgba(0,0,0,0.12);
+  position: relative;
+}
+
+.sticky-green::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 5px;
+  background: rgba(0,0,0,0.06);
+}
+
+/* ── Tools folder ── */
+.tools-folder {
+  position: relative;
+  width: 120px;
+  height: 90px;
+  cursor: none;
+}
+
+.folder-body {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 120px;
+  height: 76px;
+  background: var(--gold);
+  border-radius: 0 8px 8px 8px;
+  box-shadow: 2px 3px 12px rgba(0,0,0,0.15);
+  transition: transform .2s;
+}
+
+.folder-tab {
+  position: absolute;
+  top: 0; left: 0;
+  width: 52px;
+  height: 18px;
+  background: var(--gold);
+  border-radius: 6px 6px 0 0;
+  filter: brightness(0.88);
+}
+
+.folder-label {
+  position: absolute;
+  bottom: 14px;
+  left: 0; right: 0;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.5);
+}
+
+.tools-icons {
+  position: absolute;
+  bottom: 88px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(12px);
+  transition: opacity .25s, transform .25s;
+  white-space: nowrap;
+  z-index: 20;
+  width: 200px;
+}
+
+.tools-folder:hover .tools-icons,
+.tools-folder.open .tools-icons {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.tools-folder:hover .folder-body {
+  transform: translateY(4px);
+}
+
+.tool-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.tool-icon-img {
+  width: 32px; height: 32px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+}
+
+.tool-icon-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 8px;
+  color: #888;
+  text-align: center;
+}
+
+/* Tool colours */
+.ti-figma    { background: #1E1E1E; }
+.ti-figjam   { background: #60AFFF; }
+.ti-claude   { background: #CC785C; }
+.ti-chatgpt  { background: #10A37F; }
+.ti-make     { background: #6D00CC; }
+.ti-miro     { background: #FFD02F; color: #222 !important; }
+.ti-ps       { background: #001E36; }
+.ti-notion   { background: #fff; border: 1px solid #eee; color: #222 !important; }
+.ti-toggl    { background: #E01B22; }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor SVG -->
+<svg id="cursor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none">
+  <!-- Marker body -->
+  <rect x="6" y="2" width="11" height="20" rx="3" fill="#2A2A2A"/>
+  <!-- Marker cap tip -->
+  <polygon points="6,22 17,22 11.5,28" fill="#1a1a1a"/>
+  <!-- Marker highlight -->
+  <rect x="8" y="4" width="3" height="14" rx="1.5" fill="rgba(255,255,255,0.18)"/>
+  <!-- Marker label band -->
+  <rect x="6" y="17" width="11" height="3" fill="#444"/>
+</svg>
+
+<!-- Dot grid -->
+<canvas id="dot-grid"></canvas>
+
+<!-- Nav -->
+<nav>
+  <a href="#" class="nav-logo">IG</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+
+  <!-- Left: Name block -->
+  <div class="name-block">
+    <h1 class="name-heading">Irina<br>Gheorghe</h1>
+    <span class="title-pill">Senior Product Designer</span>
+    <div class="sticky-yellow">
+      "I design the thing<br>behind the thing."
+    </div>
+  </div>
+
+  <!-- Center: Badge -->
+  <div class="badge-wrap">
+    <div class="lanyard-anchor"></div>
+    <div class="badge-swing">
+      <div class="lanyard-strap"></div>
+      <a href="#" class="badge-card" title="Connect on LinkedIn">
+        <div class="badge-event-label">UX · Aarhus · DK</div>
+        <div class="badge-avatar">IG</div>
+        <div class="badge-name">Irina<br>Gheorghe</div>
+        <div class="badge-title-small">Senior Product Designer<br>irinagheorghe.dk</div>
+        <div class="badge-barcode"></div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Right: Post-it stack -->
+  <div class="postit-area">
+    <div class="postit-stack" id="postit-stack" title="Click to flip">
+      <div class="postit" style="--base-rot: rotate(-4deg)">
+        <span class="stat-value">18</span>
+        <span class="stat-label">products designed</span>
+      </div>
+      <div class="postit" style="--base-rot: rotate(-1deg) translate(4px,4px)">
+        <span class="stat-value">52</span>
+        <span class="stat-label">user interviews</span>
+      </div>
+      <div class="postit" style="--base-rot: rotate(3deg) translate(2px,8px)">
+        <span class="stat-value">85%</span>
+        <span class="stat-label">avg. conversion lift</span>
+      </div>
+      <div class="postit" style="--base-rot: rotate(-3deg) translate(-2px,12px)">
+        <span class="stat-value">500k</span>
+        <span class="stat-label">DKK revenue impact</span>
+      </div>
+      <div class="postit" style="--base-rot: rotate(2deg) translate(5px,16px)">
+        <span class="stat-value">2000</span>
+        <span class="stat-label">daily active users</span>
+      </div>
+      <div class="postit" style="--base-rot: rotate(-2deg) translate(1px,20px)">
+        <span class="stat-value">4</span>
+        <span class="stat-label">interns mentored</span>
+      </div>
+      <span class="postit-hint">click to flip ↑</span>
+    </div>
+  </div>
+
+  <!-- Bottom row -->
+  <div class="bottom-row">
+    <!-- Green sticky -->
+    <div class="sticky-green">
+      "UX that starts with the business<br>and ends with the user."
+    </div>
+
+    <!-- Spacer -->
+    <div></div>
+
+    <!-- Tools folder -->
+    <div class="tools-folder" id="tools-folder">
+      <div class="folder-tab"></div>
+      <div class="folder-body"></div>
+      <div class="folder-label">Tools</div>
+      <div class="tools-icons" id="tools-icons">
+        <div class="tool-icon">
+          <div class="tool-icon-img ti-figma">
+            <svg width="18" height="18" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19 28.5A9.5 9.5 0 1 1 28.5 19 9.5 9.5 0 0 1 19 28.5Z" fill="#1ABCFE"/>
+              <path d="M9.5 47.5A9.5 9.5 0 0 1 19 38v9.5a9.5 9.5 0 0 1-9.5 9.5Z" fill="#0ACF83"/>
+              <path d="M0 28.5A9.5 9.5 0 0 1 9.5 19H19v9.5a9.5 9.5 0 0 1-9.5 9.5Z" fill="#A259FF"/>
+              <path d="M0 9.5A9.5 9.5 0 0 1 9.5 0H19v19H9.5A9.5 9.5 0 0 1 0 9.5Z" fill="#F24E1E"/>
+              <path d="M19 0h9.5a9.5 9.5 0 0 1 0 19H19Z" fill="#FF7262"/>
+            </svg>
+          </div>
+          <span class="tool-icon-label">Figma</span>
+        </div>
+        <div class="tool-icon">
+          <div class="tool-icon-img ti-figjam">FJ</div>
+          <span class="tool-icon-label">FigJam</span>
+        </div>
+        <div class="tool-icon">
+          <div class="tool-icon-img ti-claude">Cl</div>
+          <span class="tool-icon-label">Claude</span>
+        </div>
+        <div class="tool-icon">
+          <div class="tool-icon-img ti-chatgpt">
+            <svg width="18" height="18" viewBox="0 0 41 41" fill="none"><path d="M37.5 16.6a10.8 10.8 0 0 0-.93-8.87 11 11 0 0 0-11.84-5.27A10.9 10.9 0 0 0 16.54 0a11 11 0 0 0-10.5 7.6 10.9 10.9 0 0 0-7.29 5.27 11 11 0 0 0 1.36 12.9 10.8 10.8 0 0 0 .93 8.87 11 11 0 0 0 11.84 5.27A10.9 10.9 0 0 0 20.5 41a11 11 0 0 0 10.5-7.6 10.9 10.9 0 0 0 7.29-5.27 11 11 0 0 0-1.36-12.9l.57-.63z" fill="white"/></svg>
+          </div>
+          <span class="tool-icon-label">ChatGPT</span>
+        </div>
+        <div class="tool-icon">
+          <div class="tool-icon-img ti-make">Mk</div>
+          <span class="tool-icon-label">Make</span>
+        </div>
+        <div class="tool-icon">
+          <div class="tool-icon-img ti-miro" style="color:#222">Mi</div>
+          <span class="tool-icon-label">Miro</span>
+        </div>
+        <div class="tool-icon">
+          <div class="tool-icon-img ti-ps">Ps</div>
+          <span class="tool-icon-label">Photoshop</span>
+        </div>
+        <div class="tool-icon">
+          <div class="tool-icon-img ti-notion" style="color:#222">N</div>
+          <span class="tool-icon-label">Notion</span>
+        </div>
+        <div class="tool-icon">
+          <div class="tool-icon-img ti-toggl">Tg</div>
+          <span class="tool-icon-label">Toggl</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+/* ── Dot grid ── */
+(function() {
+  const canvas = document.getElementById('dot-grid');
+  const ctx = canvas.getContext('2d');
+  function draw() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const gap = 24, r = 1.5;
+    ctx.fillStyle = '#C8C8C8';
+    for (let x = gap; x < canvas.width; x += gap) {
+      for (let y = gap; y < canvas.height; y += gap) {
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+  }
+  draw();
+  window.addEventListener('resize', draw);
+})();
+
+/* ── Custom cursor ── */
+(function() {
+  const el = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    el.style.left = e.clientX + 'px';
+    el.style.top  = e.clientY + 'px';
+  });
+  document.addEventListener('mouseleave', () => el.style.opacity = '0');
+  document.addEventListener('mouseenter', () => el.style.opacity = '1');
+})();
+
+/* ── Post-it stack click ── */
+(function() {
+  const stack = document.getElementById('postit-stack');
+  const postits = Array.from(stack.querySelectorAll('.postit'));
+  const baseRots = postits.map(p => p.style.getPropertyValue('--base-rot'));
+  let current = 0;
+
+  // Apply z-index order from current
+  function restack() {
+    const n = postits.length;
+    postits.forEach((p, i) => {
+      const offset = (i - current + n) % n;
+      p.style.zIndex = n - offset;
+    });
+  }
+
+  restack();
+
+  stack.addEventListener('click', () => {
+    const top = postits.find(p => parseInt(p.style.zIndex) === postits.length);
+    if (!top) return;
+
+    // Fly it off
+    top.classList.add('flying');
+
+    setTimeout(() => {
+      top.classList.remove('flying');
+      // Move to bottom of stack
+      const n = postits.length;
+      current = (current + 1) % n;
+      restack();
+      // Reset top's transform after it's at the back
+      top.style.transform = baseRots[(postits.indexOf(top))];
+    }, 560);
+  });
+})();
+</script>
+</body>
+</html>
